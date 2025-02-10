@@ -1,5 +1,12 @@
+import './index.css';
+
 function MemoContainer({ memo, setMemo }) {
-  return (
+  return !memo ? (
+    <div>
+      <h1>메모가 없습니다.</h1>
+      <h2>새로운 메모를 추가해주세요.</h2>
+    </div>
+  ) : (
     <div className="MemoContainer">
       <div>
         <input
