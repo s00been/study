@@ -5,7 +5,7 @@ import SideBar from './components/SideBar';
 import { setItem, getItem } from './lib/storage';
 import debounce from 'lodash.debounce';
 
-const debounceSetItem = debounce(setItem, 500);
+const debouncedSetItem = debounce(setItem, 5000);
 
 function App() {
   const [memos, setMemos] = useState(getItem('memo') || []);
@@ -14,11 +14,11 @@ function App() {
 
   const setMemo = useCallback(
     (newMemo) => {
-      // setMemos(newMemos);
       setMemos((memos) => {
         const newMemos = [...memos];
+
         newMemos[selectedMemoIndex] = newMemo;
-        debounceSetItem('memo', newMemos);
+        debouncedSetItem('memo', newMemos);
 
         return newMemos;
       });
@@ -38,32 +38,38 @@ function App() {
           updatedAt: now,
         },
       ];
-      debounceSetItem('memo', newMemos);
+
+      debouncedSetItem('memo', newMemos);
 
       return newMemos;
     });
     setSelectedMemoIndex(memos.length);
   }, [memos]);
 
-  const deleteMemo = useCallback((index) => {
-    setMemos((memos) => {
-      const newMemos = [...memos];
+  const deleteMemo = useCallback(
+    (index) => {
+      setMemos((memos) => {
+        const newMemos = [...memos];
 
-      newMemos.splice(index, 1);
-      debounceSetItem('memo', newMemos);
+        newMemos.splice(index, 1);
+        debouncedSetItem('memo', newMemos);
 
-      return newMemos;
-    });
-    setSelectedMemoIndex(0);
-  }, []);
+        return newMemos;
+      });
+      if (index === selectedMemoIndex) {
+        setSelectedMemoIndex(0);
+      }
+    },
+    [selectedMemoIndex],
+  );
 
   return (
     <div className="App">
       <SideBar
         memos={memos}
-        setSelectedMemoIndex={setSelectedMemoIndex}
-        selectedMemoIndex={selectedMemoIndex}
         addMemo={addMemo}
+        selectedMemoIndex={selectedMemoIndex}
+        setSelectedMemoIndex={setSelectedMemoIndex}
         deleteMemo={deleteMemo}
       />
       <MemoContainer memo={memos[selectedMemoIndex]} setMemo={setMemo} />
