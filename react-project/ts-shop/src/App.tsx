@@ -1,39 +1,58 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import { ThemeProvider } from '@mui/material/styles';
-import theme from './assets/styles/themMuiStyle';
+import { createTheme } from '@mui/material/styles';
+import { purple, green, grey } from '@mui/material/colors';
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import Header from './components/Header';
+import Switch from '@mui/material/Switch';
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+  const [themeOption, setThemeOption] = useState({
+    palette: {
+      type: 'light',
+      primary: {
+        main: purple[500], // Define the primary color
+      },
+      secondary: {
+        main: green[500], // Define the secondary color
+      },
+    },
+  });
+
+  const handleChange = useCallback(() => {
+    setIsDark((prevIsDark) => !prevIsDark);
+    setThemeOption((prev) => ({
+      ...prev,
+      palette: {
+        ...prev.palette,
+        mode: isDark ? 'light' : 'dark',
+      },
+    }));
+  }, [isDark]);
+
+  const theme = createTheme(themeOption);
+
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
-            <Toolbar>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                News
-              </Typography>
-              <Button color="inherit">Login</Button>
-            </Toolbar>
-          </AppBar>
-        </Box>
+        <Header>
+          <Switch
+            checked={!isDark}
+            onChange={handleChange}
+            sx={{
+              '& .MuiSwitch-switchBase': {
+                color: isDark ? '#DAE2ED' : '#E5EAF2', // Thumb color change
+              },
+              '& .MuiSwitch-track': {
+                backgroundColor: isDark
+                  ? '#F3F6F9 !important'
+                  : '#F3F6F9 !important', // Track color change
+              },
+            }}
+          />
+        </Header>
       </ThemeProvider>
     </>
   );
