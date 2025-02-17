@@ -1,4 +1,8 @@
 import React from 'react';
+
+import { useReactiveVar } from '@apollo/client';
+import { cartItemsVar } from '../cache';
+
 import Close from '@mui/icons-material/Close';
 import CreditCard from '@mui/icons-material/CreditCard';
 import Box from '@mui/material/Box';
@@ -57,6 +61,8 @@ const InsetAvoidingViewFooter = styled(InsetAvoidingView)(
 );
 
 export default function Cart() {
+  const cartItems = useReactiveVar(cartItemsVar);
+
   return (
     <ThemeProvider theme={dailyShoppingTheme}>
       <Fullscreen>
@@ -122,15 +128,9 @@ export default function Cart() {
                 >
                   {rightEdgeSidebar?.open ? <Close /> : <CreditCard />}
                 </Fab>
-                <StyledHeader>
-                  <Container>
-                    <DailyHeader />
-                  </Container>
-                </StyledHeader>
-
                 <Content>
                   <InsetContainer>
-                    <DailyCart />
+                    <DailyCart cartItems={cartItems} />
                   </InsetContainer>
                 </Content>
               </>

@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -46,11 +47,13 @@ const Header = ({ children }: Props) => {
             News
           </Typography>
           {children}
-          <IconButton aria-label="cart">
-            <StyledBadge badgeContent={cartItems.length} color="secondary">
-              <ShoppingCartIcon />
-            </StyledBadge>
-          </IconButton>
+          <Link to={'/cart'}>
+            <IconButton aria-label="cart">
+              <StyledBadge badgeContent={cartItems.length} color="secondary">
+                <ShoppingCartIcon />
+              </StyledBadge>
+            </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>

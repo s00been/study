@@ -24,19 +24,19 @@ const MyApp = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Paper sx={{ boxShadow: 'none' }}>
-        <Header>
-          <SwitchMui checked={darkMode} onChange={toggleDarkMode} />
-        </Header>
-        <Container>
-          <Router>
+      <Router>
+        <Paper sx={{ boxShadow: 'none' }}>
+          <Header>
+            <SwitchMui checked={darkMode} onChange={toggleDarkMode} />
+          </Header>
+          <Container>
             <Routes>
               <Route path="/" element={<Products />} />
               <Route path="/cart" element={<Cart />} />
             </Routes>
-          </Router>
-        </Container>
-      </Paper>
+          </Container>
+        </Paper>
+      </Router>
     </ThemeProvider>
   );
 };
