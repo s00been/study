@@ -57,7 +57,7 @@ function createData(image, name, descr, size, quantity, totalPrice) {
   return { image, name, descr, size, quantity, totalPrice };
 }
 
-const DailyCart = ({ cartItems }) => {
+const DailyCart = ({ itemObj }) => {
   return (
     <Box pt={{ xs: 2, sm: 4, md: 6 }}>
       <TypographyHeading variant={'h1'} gutterBottom>
@@ -74,7 +74,7 @@ const DailyCart = ({ cartItems }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cartItems?.map((row) => (
+            {Object.values(itemObj)?.map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   <Box display={'flex'} alignItems={'center'}>

@@ -63,6 +63,22 @@ const InsetAvoidingViewFooter = styled(InsetAvoidingView)(
 export default function Cart() {
   const cartItems = useReactiveVar(cartItemsVar);
 
+  const itemObj = cartItems.reduce(
+    (acc, item) => {
+      const {
+        product: { id },
+      } = item;
+      if (acc[id]) {
+        acc[id].amount += 1;
+      } else {
+        acc[id] = { ...item };
+      }
+
+      return acc;
+    },
+    {} as Record<string, CartItem>,
+  );
+
   return (
     <ThemeProvider theme={dailyShoppingTheme}>
       <Fullscreen>
@@ -130,7 +146,7 @@ export default function Cart() {
                 </Fab>
                 <Content>
                   <InsetContainer>
-                    <DailyCart cartItems={cartItems} />
+                    <DailyCart itemObj={itemObj} />
                   </InsetContainer>
                 </Content>
               </>
