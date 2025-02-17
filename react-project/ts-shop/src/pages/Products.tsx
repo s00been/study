@@ -1,8 +1,9 @@
 import React from 'react';
-
+import { v4 as uuidv4 } from 'uuid';
 import { Grid, Container, Paper, useTheme } from '@mui/material';
 
 import ProductCard from '../components/Product/ProductCard';
+import { cartItemsVar } from '../cache';
 
 const products = [
   {
@@ -25,20 +26,25 @@ export default function Products() {
   return (
     <Container sx={{ paddingTop: 7 }}>
       <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
-        {products?.map((value, idx) => (
+        {products?.map((props, idx) => (
           <Grid key={idx} item xs={6} md={4}>
-            <ProductCard {...value} />
-            {/* <Paper
-              sx={{
-                backgroundColor:
-                  theme.palette.mode === 'dark' ? '#424242' : '#f5f5f5',
+            <ProductCard
+              onClick={() => {
+                const allCartItems = cartItemsVar();
+                cartItemsVar([
+                  ...allCartItems,
+                  {
+                    id: uuidv4(),
+                    product: {
+                      ...props,
+                      id: uuidv4(),
+                    },
+                    amount: 1,
+                  },
+                ]);
               }}
-              style={{ height: 200 }}
-            >
-              <img style={{ width: '100%' }} src={value.imgUrl} alt="product" />
-              {value.name}
-              {value.price}
-            </Paper> */}
+              {...props}
+            />
           </Grid>
         ))}
       </Grid>

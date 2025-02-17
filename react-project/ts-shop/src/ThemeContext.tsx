@@ -7,7 +7,6 @@ export const DarkModeProvider = ({ children }) => {
 
   const toggleDarkMode = useCallback(() => {
     setDarkMode((prevMode) => !prevMode);
-    console.log('test');
   }, []);
 
   return (

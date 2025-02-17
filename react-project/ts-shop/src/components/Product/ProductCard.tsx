@@ -38,6 +38,7 @@ const useStyles = (): CSSObject & Partial<InfoSlotStyles> => {
 };
 
 const StyledCard = styled(Card)({
+  cursor: 'pointer',
   borderRadius: '1rem',
   boxShadow: 'none',
   position: 'relative',
@@ -77,11 +78,12 @@ interface Props {
   name: string;
   price: string;
   imgUrl: string;
+  onClick?: () => void;
 }
 
-export default function ProductCard({ name, price, imgUrl }: Props) {
+export default function ProductCard({ name, price, imgUrl, onClick }: Props) {
   return (
-    <StyledCard>
+    <StyledCard onClick={onClick}>
       <StyledCardMedia image={imgUrl} />
       <Content>
         <Info useStyles={useStyles}>

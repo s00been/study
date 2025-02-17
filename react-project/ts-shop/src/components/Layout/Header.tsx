@@ -1,12 +1,34 @@
 import { useState, useCallback } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+
 import MenuIcon from '@mui/icons-material/Menu';
 
-const Header = ({ children }) => {
+import {
+  Badge,
+  IconButton,
+  Toolbar,
+  Box,
+  AppBar,
+  Typography,
+  styled,
+} from '@mui/material';
+
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useReactiveVar } from '@apollo/client';
+import { cartItemsVar } from '../../cache';
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '.MuiBadge-dot': {
+    backgroundColor: theme.palette.secondary.main, // Change dot color
+  },
+}));
+
+interface Props {
+  children?: React.ReactNode;
+}
+
+const Header = ({ children }: Props) => {
+  const cartItems = useReactiveVar(cartItemsVar);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -24,6 +46,11 @@ const Header = ({ children }) => {
             News
           </Typography>
           {children}
+          <IconButton aria-label="cart">
+            <StyledBadge badgeContent={cartItems.length} color="secondary">
+              <ShoppingCartIcon />
+            </StyledBadge>
+          </IconButton>
         </Toolbar>
       </AppBar>
     </Box>
