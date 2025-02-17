@@ -1,0 +1,10 @@
+{
+    "extends": [
+        "react-app",
+        "react-app/jest"
+    ],
+    "rules": {
+        // 콘솔 확인용
+        //"no-console" : "error"
+    }
+}
