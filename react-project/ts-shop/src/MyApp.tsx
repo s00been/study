@@ -1,8 +1,12 @@
 import { useState, useCallback } from 'react';
+
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import Header from './components/Layout/Header';
 import Products from './pages/Products';
+import Cart from './pages/Cart';
 
-import Switch from '@mui/material/Switch';
+import SwitchMui from '@mui/material/Switch';
 
 import { useDarkMode } from './ThemeContext';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -22,9 +26,15 @@ const MyApp = () => {
       <CssBaseline />
       <Paper sx={{ boxShadow: 'none' }}>
         <Header>
-          <Switch checked={darkMode} onChange={toggleDarkMode} />
+          <SwitchMui checked={darkMode} onChange={toggleDarkMode} />
         </Header>
-        <Products />
+
+        <Router>
+          <Routes>
+            <Route path="/" element={<Products />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </Router>
       </Paper>
     </ThemeProvider>
   );
