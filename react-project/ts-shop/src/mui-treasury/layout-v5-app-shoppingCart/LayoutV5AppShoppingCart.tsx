@@ -16,14 +16,14 @@ import {
   InsetContainer,
   InsetSidebar,
   Root,
-} from '../mui-treasury/layout-core-v5';
+} from '../layout-core-v5';
 import {
   DailyCart,
   DailyCheckout,
   DailyHeader,
   dailyShoppingTheme,
   DailySummary,
-} from '../mui-treasury/layout-v5-app-shoppingCart/components';
+} from './components';
 
 const StyledHeader = styled(Header)(() => ({
   backgroundColor: '#ffffff',
@@ -56,7 +56,7 @@ const InsetAvoidingViewFooter = styled(InsetAvoidingView)(
   }),
 );
 
-export default function Cart() {
+export const LayoutAppShoppingCart = () => {
   return (
     <ThemeProvider theme={dailyShoppingTheme}>
       <Fullscreen>
@@ -127,12 +127,31 @@ export default function Cart() {
                     <DailyHeader />
                   </Container>
                 </StyledHeader>
-
+                <EdgeSidebar anchor="right">
+                  <DailyCheckout />
+                </EdgeSidebar>
                 <Content>
-                  <InsetContainer>
+                  <InsetContainer
+                    rightSidebar={
+                      <InsetSidebar
+                        sx={{ border: 'none', py: '1rem', pl: '1rem' }}
+                      >
+                        <DailyCheckout />
+                      </InsetSidebar>
+                    }
+                  >
                     <DailyCart />
                   </InsetContainer>
                 </Content>
+                <Footer>
+                  <Container>
+                    <InsetAvoidingViewFooter>
+                      <Box pb={3}>
+                        <DailySummary />
+                      </Box>
+                    </InsetAvoidingViewFooter>
+                  </Container>
+                </Footer>
               </>
             );
           }}
@@ -140,4 +159,4 @@ export default function Cart() {
       </Fullscreen>
     </ThemeProvider>
   );
-}
+};

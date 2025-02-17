@@ -11,7 +11,7 @@ import SwitchMui from '@mui/material/Switch';
 import { useDarkMode } from './ThemeContext';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import { CssBaseline, Paper } from '@mui/material';
+import { Container, CssBaseline, Paper } from '@mui/material';
 const MyApp = () => {
   const { darkMode, toggleDarkMode } = useDarkMode();
 
@@ -28,13 +28,14 @@ const MyApp = () => {
         <Header>
           <SwitchMui checked={darkMode} onChange={toggleDarkMode} />
         </Header>
-
-        <Router>
-          <Routes>
-            <Route path="/" element={<Products />} />
-            <Route path="/cart" element={<Cart />} />
-          </Routes>
-        </Router>
+        <Container>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Products />} />
+              <Route path="/cart" element={<Cart />} />
+            </Routes>
+          </Router>
+        </Container>
       </Paper>
     </ThemeProvider>
   );
