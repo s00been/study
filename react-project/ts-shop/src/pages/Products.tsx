@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import {
-  Grid,
   Container,
   Paper,
   useTheme,
@@ -13,11 +11,14 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Box,
 } from '@mui/material';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 import ProductCard from '../components/Product/ProductCard';
 import { cartItemsVar } from '../cache';
+
+import ProductList from './ProductList';
 
 import {
   useGetProductsQuery,
@@ -25,8 +26,6 @@ import {
 } from '../generated/graphql';
 
 export default function Products() {
-  const theme = useTheme();
-
   const { data, loading, error } = useGetProductsQuery();
   const [addProduct, { loading: mutationLoading }] = useAddProductMutation({
     onCompleted: (data) => {
@@ -36,6 +35,8 @@ export default function Products() {
   });
 
   const [open, setOpen] = useState(false);
+  const [searchDraft, setSearchDraft] = useState('');
+  const [search, setSearch] = useState('');
   const [form, setForm] = useState({
     name: '',
     price: '',
@@ -88,26 +89,26 @@ export default function Products() {
 
   return (
     <Container sx={{ paddingTop: 7 }}>
-      <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
-        {data?.products.map((props, idx) => (
-          <Grid key={idx} item xs={6} md={4}>
-            <ProductCard
-              onClick={() => {
-                const allCartItems = cartItemsVar();
-                cartItemsVar([
-                  ...allCartItems,
-                  {
-                    id: uuidv4(),
-                    product: props,
-                    amount: 1,
-                  },
-                ]);
-              }}
-              {...props}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      <Box
+        sx={{
+          display: 'flex',
+          padding: 2,
+          justifyContent: 'center',
+          marginBottom: 2,
+        }}
+      >
+        <TextField
+          variant="outlined"
+          label="상품명으로 검색"
+          fullWidth
+          value={searchDraft}
+          onChange={(e) => setSearchDraft(e.target.value)}
+        />
+        <Button onClick={() => setSearch(searchDraft)} variant="contained">
+          조회
+        </Button>
+      </Box>
+      <ProductList products={data?.products} search={search} />
       <Dialog
         open={open}
         onClose={handleClose}
