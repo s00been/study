@@ -5,11 +5,16 @@ import { Grid, Container, Paper, useTheme } from '@mui/material';
 import ProductCard from '../components/Product/ProductCard';
 import { cartItemsVar } from '../cache';
 
-import { useGetProductsQuery } from '../gql/graphql';
+import {
+  useGetProductsQuery,
+  useAddProductMutation,
+} from '../generated/graphql';
 
 export default function Products() {
   const theme = useTheme();
+
   const { data, loading, error } = useGetProductsQuery();
+  const [addProduct, { loading: mutationLoading }] = useAddProductMutation();
 
   if (loading) {
     return (
