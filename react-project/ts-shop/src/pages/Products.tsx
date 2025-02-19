@@ -11,6 +11,24 @@ export default function Products() {
   const theme = useTheme();
   const { data, loading, error } = useGetProductsQuery();
 
+  if (loading) {
+    return (
+      <Container sx={{ paddingTop: 7, textAlign: 'center' }}>
+        Loading...
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container sx={{ paddingTop: 7 }}>
+        <Paper sx={{ padding: 2, backgroundColor: theme.palette.error.light }}>
+          {error.message}
+        </Paper>
+      </Container>
+    );
+  }
+
   return (
     <Container sx={{ paddingTop: 7 }}>
       <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
